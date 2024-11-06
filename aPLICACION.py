@@ -7,7 +7,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 import uvicorn
+import os 
 
+directorio_actual = os.path.dirname(os.path.realpath(__file__))
+archivo_csv = os.path.join(directorio_actual, 'mod.csv')
+
+if not os.path.exists(archivo_csv):
+    raise Exception(f"Error: El archivo no se encuentra en la ruta {archivo_csv}")
+else:
+    print(f"El archivo CSV se encuentra en la ruta: {archivo_csv}")
+
+# Cargar el archivo CSV
+df = pd.read_csv(archivo_csv, parse_dates=['release_date'])
 # Diccionario para mapear los nombres de los meses en español a números de mes
 meses = {
     'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 
@@ -20,9 +31,6 @@ dias = {
     'lunes': 0, 'martes': 1, 'miércoles': 2, 'jueves': 3, 'viernes': 4, 'sábado': 5, 'domingo': 6
 }
 
-# Cargar el CSV 
-archivo_csv = r'C:\Users\Lauta\OneDrive\Escritorio\proyecto20\mod.csv'
-df = pd.read_csv(archivo_csv, parse_dates=['release_date'])
 #crear la app 
 app = FastAPI()
 
